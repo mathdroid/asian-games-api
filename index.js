@@ -10,8 +10,10 @@ const PORT = process.env.PORT || 3000;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.get("/", (req, res) => res.send("Hello World!"));
-app.get("/sports", (req, res) => res.send({ sports: api.getAllSports() }));
+app.get("/", (_, res) => res.send("Hello World!"));
+app.get("/sports", (_, res) =>
+  res.send({ status: "ok", data: api.getAllSports() })
+);
 
 app.get("/schedules", (req, res, next) => {
   const schedules = api.getAllSchedule(req.query);
