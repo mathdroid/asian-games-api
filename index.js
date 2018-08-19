@@ -11,11 +11,22 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.get("/", (_, res) => res.send("Hello World!"));
+
 app.get("/sports", (_, res) =>
   res.send({ status: "ok", data: api.getAllSports() })
 );
 
-app.get("/schedules", (req, res, next) => {
+app.get("/schedules", (req, res) => {
+  if (!req.query.sport && !req.query.country) {
+    console.error("No Country or Sport code");
+    res.status(400);
+    return res.send({
+      status: "Bad Request",
+      error: {
+        message: "Must provide `sport` or `country` parameter."
+      }
+    });
+  }
   const schedules = api.getAllSchedule(req.query);
   res.send({
     status: "ok",
@@ -31,9 +42,8 @@ app.get("/countries", (req, res, next) => {
   });
 });
 
-app.get("/athlete", (req, res, next) => {
+app.get("/athlete", (req, res) => {
   const country = req.query.country;
-
   if (country) {
     const athletesByCountry = api.getAllAthleteByCountry(country);
     res.send({

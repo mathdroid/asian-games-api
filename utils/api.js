@@ -20,6 +20,8 @@ module.exports = {
       schedules = scheduleBySport[query.sport].scheduleByDay;
     } else if (query.country) {
       schedules = scheduleByCountry[query.country].scheduleByDay;
+    } else {
+      throw new Error("Must provide `sport` or `country` parameter.");
     }
     for (let date in schedules) {
       listSchedule = _.concat(listSchedule, schedules[date]);
@@ -32,9 +34,9 @@ module.exports = {
     return listSchedule;
   },
   getCountry: function() {
-    let country = {};
+    let country = [];
     for (let c in scheduleByCountry) {
-      country[c] = scheduleByCountry[c].name;
+      country.push({ code: c, name: scheduleByCountry[c].name });
     }
     return country;
   },
