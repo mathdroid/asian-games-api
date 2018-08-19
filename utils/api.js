@@ -7,7 +7,7 @@ const athleteList = require("./athleteList.json");
 
 module.exports = {
   getAllSports: function() {
-    const sports = Object.keys(scheduleBySport).map((key, index) => ({
+    const sports = Object.keys(scheduleBySport).map(key => ({
       code: key,
       title: scheduleBySport[key].title
     }));
